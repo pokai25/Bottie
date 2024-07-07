@@ -2,7 +2,7 @@ const { Permissions, EmbedBuilder } = require('discord.js');
 
 module.exports = {
     name: 'promote',
-    description: 'Assigns a rank to a user',
+    description: 'Assigns a rank to multiple users',
     execute(message, args) {
         // Role IDs for each level
         const levelRoleIDs = {
@@ -26,56 +26,47 @@ module.exports = {
             const usageEmbed = new EmbedBuilder()
                 .setTitle('Error Code 1059')
                 .setColor('#58b9ff')
-                .setDescription('- **Error** : Command input is invalid!\n- **Solution** : Please use the command in the following format : !rankup <@user> <rank>')
+                .setDescription('- **Error**: Command input is invalid!\n- **Solution**: Please use the command in the following format: !rankup <@user1> <@user2> ... <rank>')
                 .setTimestamp();
 
             return message.reply({ embeds: [usageEmbed] });
         }
 
-        // Get the mentioned user
-        const user = message.mentions.users.first();
-        if (!user) {
-            const noUserMentionEmbed = new EmbedBuilder()
-                .setTitle('Error Code 1062')
-                .setDescription('- **Error** : No valid user mentioned!\n- **Solution** : Please mention a valid user to assign the rank.')
-                .setColor('#58b9ff')
-                .setTimestamp();
-
-            return message.reply({ embeds: [noUserMentionEmbed] });
-        }
-
-        const rankArg = args[1].toLowerCase();
+        // Get the rank argument
+        const rankArg = args[args.length - 1].toLowerCase();
         const rankID = assignableRoles[rankArg];
         if (!rankID) {
             const invalidRankEmbed = new EmbedBuilder()
                 .setTitle('Error Code 1060')
-                .setDescription('- **Error** : Invalid Rank executed!\n- **Solution** : Please execute the correct rank in order to give ranks to users!')
+                .setDescription('- **Error**: Invalid Rank executed!\n- **Solution**: Please execute the correct rank in order to give ranks to users!')
                 .setColor('#58b9ff')
                 .setTimestamp();
 
             return message.reply({ embeds: [invalidRankEmbed] });
         }
 
+        // Get the mentioned users
+        const userMentions = args.slice(0, -1);
+        const users = userMentions.map(mention => message.mentions.users.get(mention.replace(/[<@!>]/g, ''))).filter(Boolean);
+
+        if (users.length === 0) {
+            const noUserMentionEmbed = new EmbedBuilder()
+                .setTitle('Error Code 1062')
+                .setDescription('- **Error**: No valid users mentioned!\n- **Solution**: Please mention valid users to assign the rank.')
+                .setColor('#58b9ff')
+                .setTimestamp();
+
+            return message.reply({ embeds: [noUserMentionEmbed] });
+        }
+
         const guild = message.guild;
 
         if (!guild) {
             const noServerEmbed = new EmbedBuilder()
-                .setColor('#ff0000')
+                .setColor('#58b9ff')
                 .setDescription('This command must be used in a server!');
 
             return message.reply({ embeds: [noServerEmbed] });
-        }
-
-        // Get the member object
-        const member = guild.members.cache.get(user.id);
-        if (!member) {
-            const memberNotFoundEmbed = new EmbedBuilder()
-                .setTitle('Error Code 1058')
-                .setDescription('- **Error** : Member not found in the server!\n- **Solution** : Please input and execute the correct username!')
-                .setColor('#58b9ff')
-                .setTimestamp();
-
-            return message.reply({ embeds: [memberNotFoundEmbed] });
         }
 
         // Determine the highest level role the message author has
@@ -90,71 +81,81 @@ module.exports = {
         if (!authorLevel) {
             const noPermissionEmbed = new EmbedBuilder()
                 .setTitle('Error Code 1056')
-                .setDescription('- **Error** : You do not have permission to use this command!\n- **Solution** : You must have a valid ranking role to use this command!')
+                .setDescription('- **Error**: You do not have permission to use this command!\n- **Solution**: You must have a valid ranking role to use this command!')
                 .setColor('#58b9ff')
                 .setTimestamp();
 
             return message.reply({ embeds: [noPermissionEmbed] });
         }
 
-        // Check if the member already has a rank role
-        const currentRoleID = Object.values(assignableRoles).find(role => member.roles.cache.has(role));
-        if (currentRoleID) {
-            // Remove the current role before assigning a new one
-            member.roles.remove(currentRoleID)
-                .then(() => {
-                    // Add the new rank role to the member
-                    member.roles.add(rankID)
-                        .then(() => {
-                            const successEmbed = new EmbedBuilder()
-                                .setTitle('Rank Assigned')
-                                .setDescription(`- **Success** : Successfully added ${rankArg} role to ${user.tag}!\n- **Bug** : Code 1058`)
-                                .setColor('#58b9ff')
-                                .setTimestamp();
+        // Process each user and accumulate results
+        const successUsers = [];
+        const failedUsers = [];
 
-                            message.reply({ embeds: [successEmbed] });
-                        })
-                        .catch(error => {
-                            console.error('Failed to assign rank:', error);
-                            const errorEmbed = new EmbedBuilder()
-                                .setTitle('Error Code 1063')
-                                .setDescription('- **Error** : The bot encountered an error while attempting to add the roles you specified.\n- **Solution** : Please contact the staff members as well as the developers.')
+        const processUser = (user) => {
+            return new Promise((resolve, reject) => {
+                const member = guild.members.cache.get(user.id);
+                if (!member) {
+                    failedUsers.push(user.tag);
+                    return resolve();
+                }
 
-                            message.reply({ embeds: [errorEmbed] });
-                        });
-                })
-                .catch(error => {
-                    console.error('Failed to remove current rank:', error);
-                    const errorEmbed = new EmbedBuilder()
-                        .setTitle('Error Code 1063')
-                        .setDescription('- **Error** : The bot encountered an error while attempting to add the roles you specified.\n- **Solution** : Please contact the staff members as well as the developers.')
-                        .setColor('#58b9ff')
-                        .setTimestamp();
+                // Check if the member already has a rank role
+                const currentRoleID = Object.values(assignableRoles).find(role => member.roles.cache.has(role));
 
-                    message.reply({ embeds: [errorEmbed] });
-                });
-        } else {
-            // Add the new rank role to the member directly
-            member.roles.add(rankID)
-                .then(() => {
-                    const successEmbed = new EmbedBuilder()
-                        .setTitle('Rank Assigned')
-                        .setDescription(`- **Success** : Successfully added ${rankArg} role to ${user.tag}!\n- **Bug** : Code 1058`)
-                        .setColor('#58b9ff')
-                        .setTimestamp();
+                const updateRoles = () => {
+                    if (currentRoleID) {
+                        member.roles.remove(currentRoleID)
+                            .then(() => {
+                                member.roles.add(rankID)
+                                    .then(() => {
+                                        successUsers.push(user.tag);
+                                        resolve();
+                                    })
+                                    .catch(error => {
+                                        console.error('Failed to assign rank:', error);
+                                        failedUsers.push(user.tag);
+                                        resolve();
+                                    });
+                            })
+                            .catch(error => {
+                                console.error('Failed to remove current rank:', error);
+                                failedUsers.push(user.tag);
+                                resolve();
+                            });
+                    } else {
+                        member.roles.add(rankID)
+                            .then(() => {
+                                successUsers.push(user.tag);
+                                resolve();
+                            })
+                            .catch(error => {
+                                console.error('Failed to assign rank:', error);
+                                failedUsers.push(user.tag);
+                                resolve();
+                            });
+                    }
+                };
 
-                    message.reply({ embeds: [successEmbed] });
-                })
-                .catch(error => {
-                    console.error('Failed to assign rank:', error);
-                    const errorEmbed = new EmbedBuilder()
-                        .setTitle('Error Code 1063')
-                        .setDescription('- **Error** : The bot encountered an error while attempting to add the roles you specified.\n- **Solution** : Please contact the staff members as well as the developers.')
-                        .setColor('#58b9ff')
-                        .setTimestamp();
+                updateRoles();
+            });
+        };
 
-                    message.reply({ embeds: [errorEmbed] });
-                });
-        }
+        // Process all users
+        const userPromises = users.map(user => processUser(user));
+
+        Promise.all(userPromises).then(() => {
+            const successMessage = successUsers.length > 0 ? `- **Success**: Successfully added ${rankArg} role to ${successUsers.join(', ')}.\n` : '';
+            const failureMessage = failedUsers.length > 0 ? `- **Error**: Failed to assign ${rankArg} role to ${failedUsers.join(', ')}.\n` : '';
+            const combinedMessage = `${successMessage}${failureMessage}`;
+
+            const resultEmbed = new EmbedBuilder()
+                .setTitle('Rank Assignment Results')
+                .setDescription(`${combinedMessage}- **Bug**: Code 1058`)
+                .setColor(successUsers.length > 0 ? '#58b9ff' : '#58b9ff')
+                .setTimestamp();
+
+            message.reply({ embeds: [resultEmbed] });
+        });
     },
 };

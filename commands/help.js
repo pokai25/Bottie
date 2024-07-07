@@ -44,6 +44,17 @@ module.exports = {
             .setImage('https://media.discordapp.net/attachments/1258742384842510406/1259077862657622087/Commands_2.png?ex=668a5f22&is=66890da2&hm=0702072be6e972ffb8d59ee9b90c05921d06224672ad5ad1f6394cec648c8583&=&format=webp&quality=lossless&width=375&height=75')
             .setTimestamp();
 
+        const page3Embed = new EmbedBuilder()
+            .setTitle('**🖥️ #1 Programming [!notify]**')
+            .setDescription('**🔔 Notify**\n'+
+                '\n> `!notify <#channel>`\n> `test1`\n> `test1`\n> `test1`\n> \n> `test2`\n> `test2`\n> `test2`\n> \n> `test3`\n> `test3`\n> `test3`\n> \n> `test4`\n\n'+
+                '> ***- Test 1 is normal message and test2 is Title (embed) and test3 is Description (embed) and test4 is footer (embed)***\n'+
+                '> ***- Your format must have space between normal message, title, description, footer so that the bot knows where your text is belongs to.***'
+            )
+            .setColor('#58b9ff')
+            .setTimestamp()
+            .setImage('https://media.discordapp.net/attachments/1258742384842510406/1259444336513519646/Commands_3.png?ex=668bb471&is=668a62f1&hm=b572c134c12fe3642fadfbcc5db57f8d319c18aa274da8e7af11de9266667e52&=&format=webp&quality=lossless');
+
         const row = new ActionRowBuilder()
             .addComponents(
                 new ButtonBuilder()
@@ -57,7 +68,7 @@ module.exports = {
             );
 
         let currentPage = 0;
-        const embeds = [page1Embed, page2Embed];
+        const embeds = [page1Embed, page2Embed, page3Embed];
 
         const messageEmbed = await message.reply({ embeds: [embeds[currentPage]], components: [row] });
 

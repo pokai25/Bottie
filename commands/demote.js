@@ -5,10 +5,10 @@ module.exports = {
     name: 'demote',
     description: 'Demotes a user by removing their rank',
     execute(message, args) {
-        // Role ID that is allowed to use this command
+
         const allowedRoleID = '1258770336862830716';
 
-        // Rank roles that can be demoted
+     
         const demotableRoles = {
             private: '1248818417499373638',
             'lance corporal': '1248818393146986497',
@@ -17,7 +17,7 @@ module.exports = {
             major: '1248815965924491294',
         };
 
-        // Check permissions
+   
         if (!message.member.roles.cache.has(allowedRoleID)) {
             const noPermissionEmbed = new EmbedBuilder()
                 .setTitle('Error Code 1056')
