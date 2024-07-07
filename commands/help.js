@@ -16,7 +16,11 @@ module.exports = {
                 '> - 🎖️ **`promote`** : __Promotes a user to a higher rank.__\n' +
                 '\n'+
                 '**🛠️ Developer Commands**\n' +
-                '> - 🧪 **`test`** : __Tests the bot functionality.__')
+                '> - 🧪 **`test`** : __Tests the bot functionality.__\n'+
+                '\n**👥 Commands**'+
+                '\n'+
+                '> -🎓 **`recruit`** : __Give(s) the person Armed Citizen role__'
+            )
             .setColor('#58b9ff')
             .setImage('https://media.discordapp.net/attachments/1258742384842510406/1259077355356557392/Commands_1.png?ex=668a5eaa&is=66890d2a&hm=e20294158c0fb05e04cec357c15d1d68182dfb56b453b2adc49d1e6b760eae01&=&format=webp&quality=lossless&width=375&height=75')
             .setTimestamp();
