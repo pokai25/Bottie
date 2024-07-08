@@ -2,8 +2,8 @@ const { EmbedBuilder } = require('discord.js');
 
 module.exports = (client) => {
     client.on('guildMemberAdd', async (member) => {
-        // Send welcome message in the server
-        const channelId = '1252263349065089034'; // Replace with your actual channel ID
+ 
+        const channelId = '1252263349065089034'; 
         const channel = member.guild.channels.cache.get(channelId);
 
         if (!channel) {
@@ -21,8 +21,8 @@ module.exports = (client) => {
 
         channel.send({ embeds: [embed] });
 
-        // Assign a role to the new member
-        const roleId = '1251367866738151505'; // Replace with your actual role ID
+    
+        const roleId = '1251367866738151505'; 
         const role = member.guild.roles.cache.get(roleId);
 
         if (role && !member.roles.cache.has(roleId)) {
@@ -34,7 +34,7 @@ module.exports = (client) => {
             }
         }
 
-        // Send DM to the new member
+      
         try {
             const dmMessage = `
 **Thank you for joining Parason! If you're interested in joining, message a Warrant Officer+. You'll be ranked shortly. Before diving right in, there are a few important things to note:**

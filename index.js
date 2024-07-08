@@ -69,12 +69,6 @@ client.on('messageCreate', message => {
     const command = client.commands.get(commandName);
 
     try {
-        // Check if the command can be executed in the current channel
-        const allowedChannels = ['1258743001723699200', '1258805018518356098', '1251368394163359786'];
-        if (!allowedChannels.includes(message.channel.id)) {
-            return message.reply('**This command can only be used in bot cmds channel!**');
-        }
-
         // Check if the user has the required role to execute commands
         // Include your role permission check logic here
 
