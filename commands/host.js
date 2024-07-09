@@ -4,6 +4,18 @@ module.exports = {
     name: 'host',
     description: 'Schedules an event: raid or training.',
     async execute(message, args) {
+        // Check if the member has the required role
+        const requiredRoleId = '1260199049202761858'; // Role ID to check
+        if (!message.member.roles.cache.has(requiredRoleId)) {
+            const errorEmbed = new EmbedBuilder()
+                .setTitle('Permission Denied')
+                .setColor('#FF0000')
+                .setDescription('You do not have permission to use this command.')
+                .setTimestamp();
+
+            return message.reply({ embeds: [errorEmbed] });
+        }
+
         // Check if there are enough arguments
         if (args.length < 3) {
             const usageEmbed = new EmbedBuilder()
