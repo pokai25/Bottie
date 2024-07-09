@@ -2,6 +2,9 @@ const { Client, GatewayIntentBits, Collection, MessageEmbed } = require('discord
 const fs = require('fs');
 const path = require('path');
 const express = require('express');
+const dotenv = require('dotenv');
+
+dotenv.config();
 
 // Discord bot setup
 const client = new Client({
@@ -38,8 +41,9 @@ for (const file of commandFiles) {
     client.commands.set(command.name, command);
 }
 
-// Require the join.js script
+// Require the join.js and reactionrole.js scripts
 require('./events/join')(client);
+require('./events/reactionrole')(client);
 
 // Express web server setup
 const app = express();
@@ -69,9 +73,6 @@ client.on('messageCreate', message => {
     const command = client.commands.get(commandName);
 
     try {
-        // Check if the user has the required role to execute commands
-        // Include your role permission check logic here
-
         command.execute(message, args);
     } catch (error) {
         console.error(error);
