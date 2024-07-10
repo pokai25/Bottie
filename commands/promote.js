@@ -113,7 +113,7 @@ module.exports = {
         if (targetRankIndex === -1 || targetRankIndex <= authorRankIndex) {
             const rankNotAllowedEmbed = new EmbedBuilder()
                 .setTitle('Promote Command')
-                .setDescription('- **Error**: You can only promote to ranks lower than your own!')
+                .setDescription('- **Error**: You can only promote to ranks higher than your own!')
                 .setColor('#58b9ff')
                 .setTimestamp();
 
