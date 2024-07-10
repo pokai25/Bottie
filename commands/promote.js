@@ -4,37 +4,58 @@ module.exports = {
     name: 'promote',
     description: 'Assigns a rank to multiple users',
     execute(message, args) {
-        // Role IDs for each level
-        const levelRoleIDs = {
-            level1: '1258770431331012659',
-            level2: '1258770333486288979',
-            level3: '1258770232835833856',
-            level4: '1258770336862830716'
+        // Role IDs for each rank
+        const rankRoles = {
+            Private: '1248818417499373638',
+            'Lance-Corporal': '1248818393146986497',
+            Corporal: '1248818392681680908',
+            Sergeant: '1248818391805067264',
+            'Chef-Sergeant': '1248818391024799804',
+            'Warrant-Officer': '1248815968885538816',
+            Lieutenant: '1248819920595189862',
+            Pathfinder: '1248815967262212176',
+            Captain: '1248815966263967787',
+            'Field-Major': '1248815965924491294',
+            UIFI: '1248819697265152041',
+            Colonel: '1248815965580558418',
+            'Brigadier-Sovereign': '1248815964620066856',
+            'Democracy-Officer': '1248819527299633202',
+            'Field-Marshal': '1248815960966823978'
         };
 
-        // Rank roles that can be assigned by each level
-        const assignableRoles = {
-            private: '1248818417499373638',
-            lancecorporal: '1248818393146986497',
-            corporal: '1248818392681680908',
-            sergeant: '1248818391805067264',
-            major: '1248815965924491294',
-        };
+        // Rank hierarchy
+        const rankHierarchy = [
+            'Private',
+ 'Lance-Corporal',
+ 'Corporal',
+ 'Sergeant',
+ 'Chef-Sergeant',
+ 'Warrant-Officer',
+ 'Lieutenant',
+ 'Pathfinder',
+ 'Captain',
+ 'Field-Major',
+ 'UIFI',
+ 'Colonel',
+ 'Brigadier-Sovereign',
+ 'Democracy-Officer',
+ 'Field-Marshal'
+        ];
 
         // Check if the command was used correctly
         if (args.length < 2) {
             const usageEmbed = new EmbedBuilder()
                 .setTitle('Error Code 1059')
                 .setColor('#58b9ff')
-                .setDescription('- **Error**: Command input is invalid!\n- **Solution**: Please use the command in the following format: !rankup <@user1> <@user2> ... <rank>')
+                .setDescription('- **Error**: Command input is invalid!\n- **Solution**: Please use the command in the following format: !promote <@user1> <@user2> ... <rank>')
                 .setTimestamp();
 
             return message.reply({ embeds: [usageEmbed] });
         }
 
         // Get the rank argument
-        const rankArg = args[args.length - 1].toLowerCase();
-        const rankID = assignableRoles[rankArg];
+        const rankArg = args[args.length - 1];
+        const rankID = rankRoles[rankArg];
         if (!rankID) {
             const invalidRankEmbed = new EmbedBuilder()
                 .setTitle('Error Code 1060')
@@ -70,15 +91,15 @@ module.exports = {
         }
 
         // Determine the highest level role the message author has
-        let authorLevel = null;
-        for (const [level, roleID] of Object.entries(levelRoleIDs)) {
-            if (message.member.roles.cache.has(roleID)) {
-                authorLevel = level;
+        let authorRankIndex = -1;
+        for (const [index, rank] of rankHierarchy.entries()) {
+            if (message.member.roles.cache.has(rankRoles[rank])) {
+                authorRankIndex = index;
                 break;
             }
         }
 
-        if (!authorLevel) {
+        if (authorRankIndex === -1) {
             const noPermissionEmbed = new EmbedBuilder()
                 .setTitle('Error Code 1056')
                 .setDescription('- **Error**: You do not have permission to use this command!\n- **Solution**: You must have a valid ranking role to use this command!')
@@ -86,6 +107,17 @@ module.exports = {
                 .setTimestamp();
 
             return message.reply({ embeds: [noPermissionEmbed] });
+        }
+
+        const targetRankIndex = rankHierarchy.indexOf(rankArg);
+        if (targetRankIndex === -1 || targetRankIndex <= authorRankIndex) {
+            const rankNotAllowedEmbed = new EmbedBuilder()
+                .setTitle('Promote Command')
+                .setDescription('- **Error**: You can only promote to ranks lower than your own!')
+                .setColor('#58b9ff')
+                .setTimestamp();
+
+            return message.reply({ embeds: [rankNotAllowedEmbed] });
         }
 
         // Process each user and accumulate results
@@ -101,7 +133,15 @@ module.exports = {
                 }
 
                 // Check if the member already has a rank role
-                const currentRoleID = Object.values(assignableRoles).find(role => member.roles.cache.has(role));
+                const currentRoleID = Object.values(rankRoles).find(role => member.roles.cache.has(role));
+
+                // Ensure we only promote, not demote
+                const currentRankIndex = currentRoleID ? rankHierarchy.findIndex(rank => rankRoles[rank] === currentRoleID) : -1;
+
+                if (currentRankIndex >= targetRankIndex) {
+                    failedUsers.push(user.tag);
+                    return resolve();
+                }
 
                 const updateRoles = () => {
                     if (currentRoleID) {

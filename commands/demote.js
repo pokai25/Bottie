@@ -1,121 +1,201 @@
-const { error } = require('console');
 const { Permissions, EmbedBuilder } = require('discord.js');
 
 module.exports = {
     name: 'demote',
-    description: 'Demotes a user by removing their rank',
+    description: 'Assigns a rank to multiple users',
     execute(message, args) {
-
-        const allowedRoleID = '1258770336862830716';
-
-     
-        const demotableRoles = {
-            private: '1248818417499373638',
-            'lance corporal': '1248818393146986497',
-            corporal: '1248818392681680908',
-            sergeant: '1248818391805067264',
-            major: '1248815965924491294',
+        // Role IDs for each rank
+        const rankRoles = {
+            Private: '1248818417499373638',
+            'Lance-Corporal': '1248818393146986497',
+            Corporal: '1248818392681680908',
+            Sergeant: '1248818391805067264',
+            'Chef-Sergeant': '1248818391024799804',
+            'Warrant-Officer': '1248815968885538816',
+            Lieutenant: '1248819920595189862',
+            Pathfinder: '1248815967262212176',
+            Captain: '1248815966263967787',
+            'Field-Major': '1248815965924491294',
+            UIFI: '1248819697265152041',
+            Colonel: '1248815965580558418',
+            'Brigadier-Sovereign': '1248815964620066856',
+            'Democracy-Officer': '1248819527299633202',
+            'Field-Marshal': '1248815960966823978'
         };
 
-   
-        if (!message.member.roles.cache.has(allowedRoleID)) {
-            const noPermissionEmbed = new EmbedBuilder()
-                .setTitle('Error Code 1056')
-                .setDescription('- **Error** : You do not have permission to use this command!\n- **Solution** : You must have the demoting role to use this command!')
-                .setColor('#58b9ff')
-                .setTimestamp();
-
-            return message.reply({ embeds: [noPermissionEmbed] });
-        }
+        // Rank hierarchy
+        const rankHierarchy = [
+            'Field-Marshal',
+            'Democracy-Officer',
+            'Brigadier-Sovereign',
+            'Colonel',
+            'UIFI',
+            'Field-Major',
+            'Captain',
+            'Pathfinder',
+            'Lieutenant',
+            'Warrant-Officer',
+            'Chef-Sergeant',
+            'Sergeant',
+            'Corporal',
+            'Lance-Corporal',
+            'Private'
+        ];
 
         // Check if the command was used correctly
         if (args.length < 2) {
             const usageEmbed = new EmbedBuilder()
                 .setTitle('Error Code 1059')
                 .setColor('#58b9ff')
-                .setDescription('- **Error** : Command input is invalid!\n- **Solution** : Please use the command in the following format : !demote <@user> <rank>')
+                .setDescription('- **Error**: Command input is invalid!\n- **Solution**: Please use the command in the following format: !promote <@user1> <@user2> ... <rank>')
                 .setTimestamp();
 
             return message.reply({ embeds: [usageEmbed] });
         }
 
-        // Get the mentioned user
-        const user = message.mentions.users.first();
-        if (!user) {
-            const noUserMentionEmbed = new EmbedBuilder()
-                .setTitle('Error Code 1062')
-                .setDescription('- **Error** : No valid user mentioned!\n- **Solution** : Please mention a valid user to demote.')
-                .setColor('#58b9ff')
-                .setTimestamp();
-
-            return message.reply({ embeds: [noUserMentionEmbed] });
-        }
-
-        const rankArg = args[1].toLowerCase();
-        const rankID = demotableRoles[rankArg];
+        // Get the rank argument
+        const rankArg = args[args.length - 1];
+        const rankID = rankRoles[rankArg];
         if (!rankID) {
             const invalidRankEmbed = new EmbedBuilder()
                 .setTitle('Error Code 1060')
-                .setDescription('- **Error** : Invalid Rank executed!\n- **Solution** : Please execute the correct rank to demote!')
+                .setDescription('- **Error**: Invalid Rank executed!\n- **Solution**: Please execute the correct rank in order to give ranks to users!')
                 .setColor('#58b9ff')
                 .setTimestamp();
 
             return message.reply({ embeds: [invalidRankEmbed] });
         }
 
+        // Get the mentioned users
+        const userMentions = args.slice(0, -1);
+        const users = userMentions.map(mention => message.mentions.users.get(mention.replace(/[<@!>]/g, ''))).filter(Boolean);
+
+        if (users.length === 0) {
+            const noUserMentionEmbed = new EmbedBuilder()
+                .setTitle('Error Code 1062')
+                .setDescription('- **Error**: No valid users mentioned!\n- **Solution**: Please mention valid users to assign the rank.')
+                .setColor('#58b9ff')
+                .setTimestamp();
+
+            return message.reply({ embeds: [noUserMentionEmbed] });
+        }
+
         const guild = message.guild;
 
         if (!guild) {
             const noServerEmbed = new EmbedBuilder()
-                .setColor('#ff0000')
+                .setColor('#58b9ff')
                 .setDescription('This command must be used in a server!');
 
             return message.reply({ embeds: [noServerEmbed] });
         }
 
-        // Get the member object
-        const member = guild.members.cache.get(user.id);
-        if (!member) {
-            const memberNotFoundEmbed = new EmbedBuilder()
-                .setTitle('Error Code 1058')
-                .setDescription('- **Error** : Member not found in the server!\n- **Solution** : Please input and execute the correct username!')
+        // Determine the highest level role the message author has
+        let authorRankIndex = -1;
+        for (const [index, rank] of rankHierarchy.entries()) {
+            if (message.member.roles.cache.has(rankRoles[rank])) {
+                authorRankIndex = index;
+                break;
+            }
+        }
+
+        if (authorRankIndex === -1) {
+            const noPermissionEmbed = new EmbedBuilder()
+                .setTitle('Error Code 1056')
+                .setDescription('- **Error**: You do not have permission to use this command!\n- **Solution**: You must have a valid ranking role to use this command!')
                 .setColor('#58b9ff')
                 .setTimestamp();
 
-            return message.reply({ embeds: [memberNotFoundEmbed] });
+            return message.reply({ embeds: [noPermissionEmbed] });
         }
 
-        // Check if the member has the rank role
-        if (!member.roles.cache.has(rankID)) {
-            const noRoleEmbed = new EmbedBuilder()
-                .setTitle('Error Code 1064')
-                .setDescription(`- **Error** : User does not have the ${rankArg} rank to be demoted!\n- **Solution** : Assign the correct rank to the user.`)
+        const targetRankIndex = rankHierarchy.indexOf(rankArg);
+        if (targetRankIndex === -1 || targetRankIndex <= authorRankIndex) {
+            const rankNotAllowedEmbed = new EmbedBuilder()
+                .setTitle('Promote Command')
+                .setDescription('- **Error**: You can only promote to ranks lower than your own!')
                 .setColor('#58b9ff')
                 .setTimestamp();
 
-            return message.reply({ embeds: [noRoleEmbed] });
+            return message.reply({ embeds: [rankNotAllowedEmbed] });
         }
 
-        // Remove the rank role from the member
-        member.roles.remove(rankID)
-            .then(() => {
-                const successEmbed = new EmbedBuilder()
-                    .setTitle('Rank Demoted')
-                    .setDescription(`- **Success** : Successfully demoted ${user.tag} from the rank of ${rankArg}!\n- **Bug** : Code 1058`)
-                    .setColor('#58b9ff')
-                    .setTimestamp();
+        // Process each user and accumulate results
+        const successUsers = [];
+        const failedUsers = [];
 
-                message.reply({ embeds: [successEmbed] });
-            })
-            .catch(error => {
-                console.error('Failed to demote rank:');
-                const errorEmbed = new EmbedBuilder()
-                    .setTitle('Error Code 1063')
-                    .setDescription('- **Error** : The bot encountered an error while attempting the user!\n- **Solution** : Please contact the staff members as well as the developers.')
-                    .setColor('#58b9ff')
-                    .setTimestamp();
+        const processUser = (user) => {
+            return new Promise((resolve, reject) => {
+                const member = guild.members.cache.get(user.id);
+                if (!member) {
+                    failedUsers.push(user.tag);
+                    return resolve();
+                }
 
-                message.reply({ embeds: [errorEmbed] });
+                // Check if the member already has a rank role
+                const currentRoleID = Object.values(rankRoles).find(role => member.roles.cache.has(role));
+
+                // Ensure we only promote, not demote
+                const currentRankIndex = currentRoleID ? rankHierarchy.findIndex(rank => rankRoles[rank] === currentRoleID) : -1;
+
+                if (currentRankIndex >= targetRankIndex) {
+                    failedUsers.push(user.tag);
+                    return resolve();
+                }
+
+                const updateRoles = () => {
+                    if (currentRoleID) {
+                        member.roles.remove(currentRoleID)
+                            .then(() => {
+                                member.roles.add(rankID)
+                                    .then(() => {
+                                        successUsers.push(user.tag);
+                                        resolve();
+                                    })
+                                    .catch(error => {
+                                        console.error('Failed to assign rank:', error);
+                                        failedUsers.push(user.tag);
+                                        resolve();
+                                    });
+                            })
+                            .catch(error => {
+                                console.error('Failed to remove current rank:', error);
+                                failedUsers.push(user.tag);
+                                resolve();
+                            });
+                    } else {
+                        member.roles.add(rankID)
+                            .then(() => {
+                                successUsers.push(user.tag);
+                                resolve();
+                            })
+                            .catch(error => {
+                                console.error('Failed to assign rank:', error);
+                                failedUsers.push(user.tag);
+                                resolve();
+                            });
+                    }
+                };
+
+                updateRoles();
             });
+        };
+
+        // Process all users
+        const userPromises = users.map(user => processUser(user));
+
+        Promise.all(userPromises).then(() => {
+            const successMessage = successUsers.length > 0 ? `- **Success**: Successfully added ${rankArg} role to ${successUsers.join(', ')}.\n` : '';
+            const failureMessage = failedUsers.length > 0 ? `- **Error**: Failed to assign ${rankArg} role to ${failedUsers.join(', ')}.\n` : '';
+            const combinedMessage = `${successMessage}${failureMessage}`;
+
+            const resultEmbed = new EmbedBuilder()
+                .setTitle('Rank Assignment Results')
+                .setDescription(`${combinedMessage}- **Bug**: Code 1058`)
+                .setColor(successUsers.length > 0 ? '#58b9ff' : '#58b9ff')
+                .setTimestamp();
+
+            message.reply({ embeds: [resultEmbed] });
+        });
     },
 };
