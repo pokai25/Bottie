@@ -16,20 +16,16 @@ module.exports = {
             Pathfinder: '1248815967262212176',
             Captain: '1248815966263967787',
             'Field-Major': '1248815965924491294',
-            UIFI: '1248819697265152041',
             Colonel: '1248815965580558418',
             'Brigadier-Sovereign': '1248815964620066856',
-            'Democracy-Officer': '1248819527299633202',
             'Field-Marshal': '1248815960966823978'
         };
 
         // Rank hierarchy
         const rankHierarchy = [
             'Field-Marshal',
-            'Democracy-Officer',
             'Brigadier-Sovereign',
             'Colonel',
-            'UIFI',
             'Field-Major',
             'Captain',
             'Pathfinder',
@@ -42,12 +38,20 @@ module.exports = {
             'Private'
         ];
 
+        // Role levels
+        const levelRoles = {
+            level1: '1258770431331012659',
+            level2: '1258770333486288979',
+            level3: '1258770232835833856',
+            level4: '1258770336862830716'
+        };
+
         // Check if the command was used correctly
         if (args.length < 2) {
             const usageEmbed = new EmbedBuilder()
                 .setTitle('Error Code 1059')
                 .setColor('#58b9ff')
-                .setDescription('- **Error**: Command input is invalid!\n- **Solution**: Please use the command in the following format: !promote <@user1> <@user2> ... <rank>')
+                .setDescription('- **Error**: Command input is invalid!\n- **Solution**: Please use the command in the following format: !demote <@user1> <@user2> ... <rank>')
                 .setTimestamp();
 
             return message.reply({ embeds: [usageEmbed] });
@@ -91,15 +95,18 @@ module.exports = {
         }
 
         // Determine the highest level role the message author has
-        let authorRankIndex = -1;
-        for (const [index, rank] of rankHierarchy.entries()) {
-            if (message.member.roles.cache.has(rankRoles[rank])) {
-                authorRankIndex = index;
-                break;
-            }
+        let authorLevel = -1;
+        if (message.member.roles.cache.has(levelRoles.level4)) {
+            authorLevel = 4;
+        } else if (message.member.roles.cache.has(levelRoles.level3)) {
+            authorLevel = 3;
+        } else if (message.member.roles.cache.has(levelRoles.level2)) {
+            authorLevel = 2;
+        } else if (message.member.roles.cache.has(levelRoles.level1)) {
+            authorLevel = 1;
         }
 
-        if (authorRankIndex === -1) {
+        if (authorLevel === -1) {
             const noPermissionEmbed = new EmbedBuilder()
                 .setTitle('Error Code 1056')
                 .setDescription('- **Error**: You do not have permission to use this command!\n- **Solution**: You must have a valid ranking role to use this command!')
@@ -109,11 +116,22 @@ module.exports = {
             return message.reply({ embeds: [noPermissionEmbed] });
         }
 
+        // Determine the highest rank the author can demote to based on their level
+        const maxRankByLevel = {
+            1: 'Corporal',
+            2: 'Sergeant',
+            3: 'Field-Major',
+            4: 'Private'  // Level 4 can demote to any rank
+        };
+
+        const maxRank = maxRankByLevel[authorLevel];
+        const maxRankIndex = rankHierarchy.indexOf(maxRank);
         const targetRankIndex = rankHierarchy.indexOf(rankArg);
-        if (targetRankIndex === -1 || targetRankIndex <= authorRankIndex) {
+
+        if (targetRankIndex === -1 || targetRankIndex < maxRankIndex) {
             const rankNotAllowedEmbed = new EmbedBuilder()
-                .setTitle('Promote Command')
-                .setDescription('- **Error**: You can only promote to ranks lower than your own!')
+                .setTitle('Demote Command')
+                .setDescription(`- **Error**: You can only demote down to ${maxRank}!`)
                 .setColor('#58b9ff')
                 .setTimestamp();
 
@@ -135,10 +153,10 @@ module.exports = {
                 // Check if the member already has a rank role
                 const currentRoleID = Object.values(rankRoles).find(role => member.roles.cache.has(role));
 
-                // Ensure we only promote, not demote
+                // Ensure we only demote, not promote
                 const currentRankIndex = currentRoleID ? rankHierarchy.findIndex(rank => rankRoles[rank] === currentRoleID) : -1;
 
-                if (currentRankIndex >= targetRankIndex) {
+                if (currentRankIndex <= targetRankIndex) {
                     failedUsers.push(user.tag);
                     return resolve();
                 }
@@ -185,12 +203,12 @@ module.exports = {
         const userPromises = users.map(user => processUser(user));
 
         Promise.all(userPromises).then(() => {
-            const successMessage = successUsers.length > 0 ? `- **Success**: Successfully added ${rankArg} role to ${successUsers.join(', ')}.\n` : '';
-            const failureMessage = failedUsers.length > 0 ? `- **Error**: Failed to assign ${rankArg} role to ${failedUsers.join(', ')}.\n` : '';
+            const successMessage = successUsers.length > 0 ? `- **Success**: Successfully demoted to ${rankArg} role for ${successUsers.join(', ')}.\n` : '';
+            const failureMessage = failedUsers.length > 0 ? `- **Error**: Failed to demote to ${rankArg} role for ${failedUsers.join(', ')}.\n` : '';
             const combinedMessage = `${successMessage}${failureMessage}`;
 
             const resultEmbed = new EmbedBuilder()
-                .setTitle('Rank Assignment Results')
+                .setTitle('Rank Demotion Results')
                 .setDescription(`${combinedMessage}- **Bug**: Code 1058`)
                 .setColor(successUsers.length > 0 ? '#58b9ff' : '#58b9ff')
                 .setTimestamp();

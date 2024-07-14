@@ -1,19 +1,29 @@
 const { EmbedBuilder, ActionRowBuilder, ButtonBuilder, ButtonStyle } = require('discord.js');
 
 module.exports = {
-    name: 'help',
+    name: '0058536377',
     description: 'Displays help information',
     async execute(message) {
         const page1Embed = new EmbedBuilder()
-            .setTitle('**❓ Lists**')
-            .setDescription('## **Help Commands:**\n\n' +
-                '> - ✏️  **`help-format`** : __The command format to use the command.__\n' +
-                '> - 🤖  **`help-cmds`** : __List of commands.__\n' +
-                '> - 🎖️  **`help-ranks`** : __List of ranks for commands.__\n' +
-                '\n'
+            .setTitle('**🔧 Commands Lists**')
+            .setDescription('## **Ranking Commands:**\n\n' +
+                '> - 📈  **`promote`** : __Promote the user(s).__\n' +
+                '> - 📉  **`demote`** : __Demote the user(s).__\n' +
+                '\n'+
+                '## **Staff Commands: **\n'+
+                '> - 🏆  **`addrank`** : __Add(s) level(s) to the person.__\n'+
+                '> - 🗑️  **`removerank`** : __Remove(s) level(s) to the person.__\n'+
+                '> - ⛔  **`permblacklist`** : __Permanently blacklist the user(s).__\n'+
+                '> - 📛  **`tempblacklist`** : __Temporary blacklist the user(s).__\n'+
+                '\n'+
+                '## **Public Commands: **\n'+
+                '> - 👥  **`recruit`** : __Recruit the user(s).__\n'+
+                '> - ❓  **`help`** : __Lists of information.__\n'+
+                '> - 🧪  **`test`** : __Mainly for developers to test but anyone can use it.__\n'+
+                '\nPlease use the command ***!help-format*** if you are unsure how to use the format commands\n'
             )
             .setColor('#58b9ff')
-            .setImage('https://cdn.discordapp.com/attachments/1258742384842510406/1261881506629160980/Commands_10.png?ex=6694923b&is=669340bb&hm=a9e60689f69554dcff83ab331a081ba3b66b12a67636c004f1193e7371970dde&')
+            .setImage('https://cdn.discordapp.com/attachments/1258742384842510406/1259077355356557392/Commands_1.png?ex=669441ea&is=6692f06a&hm=86884827b60f01f2a3d34023296c71000d73134d974ccca9c1eaff9bd9308b88&')
             .setTimestamp()
             .setFooter({ text: 'Page・1' });
 
@@ -45,16 +55,16 @@ module.exports = {
             .setTitle('**🤖 Bot Information**')
             .setDescription('**Bot Owner/Developer**\n'+
                 '\n'+
-                '##  👑  **Owner**\n'+
+                '  👑  **Owner**\n'+
                 '> - <@677732203861377055> - Bot Owner / Server Owner\n'+
                 '\n'+
-                '##  🛠️  **Developers**\n'+
+                '  🛠️  **Developers**\n'+
                 '> - <@1119592830327861358> - Lead Developer / Main developer\n'+
                 '\n'+
-                '##  👾  **Bot information**\n'+
-                '> - `Date created` : 5 July 2024\n'+
-                '> - `Bot ID` : 1254409963900768266\n'+
-                '> - `Vulnerability` : 1 (Low)'
+                '  👾  **Bot information**\n'+
+                '> - Date created : 5 July 2024\n'+
+                '> - Bot ID : 1254409963900768266\n'+
+                '> - Vulnerability : 1 (Low)'
             )
             .setColor('#58b9ff')
             .setTimestamp()

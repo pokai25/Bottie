@@ -3,46 +3,21 @@ const { Permissions, EmbedBuilder } = require('discord.js');
 module.exports = {
     name: 'addrank',
     description: 'Adds a rank to a user',
-    execute(message, args) {
-        // Role ID that is allowed to use this command
+    async execute(interaction) {
         const allowedRoleID = '1258806351849721996';
+        const user = interaction.options.getUser('user');
+        const level = interaction.options.getString('level');
 
         // Check permissions
-        if (!message.member.roles.cache.has(allowedRoleID)) {
+        if (!interaction.member.roles.cache.has(allowedRoleID)) {
             const noPermissionEmbed = new EmbedBuilder()
                 .setTitle('Error Code 1056')
                 .setDescription('- **Error** : You do not have permission to use this command!\n- **Solution** : You must have Ranking Perms in order to use this command!')
                 .setColor('#58b9ff')
                 .setTimestamp();
 
-            return message.reply({ embeds: [noPermissionEmbed] });
+            return interaction.reply({ embeds: [noPermissionEmbed], ephemeral: true });
         }
-
-        // Check if the command was used correctly
-        if (args.length < 2) {
-            const usageEmbed = new EmbedBuilder()
-                .setTitle('Error Code 1059')
-                .setColor('#58b9ff')
-                .setDescription('- **Error** : Command input is invalid!\n- **Solution** : Please use the command in the following format : !addrank <@user> <level>')
-                .setTimestamp();
-
-            return message.reply({ embeds: [usageEmbed] });
-        }
-
-        // Get the mentioned user
-        const user = message.mentions.users.first();
-        if (!user) {
-            const noUserMentionEmbed = new EmbedBuilder()
-                .setTitle('Error Code 1062')
-                .setDescription('- **Error** : No valid user mentioned!\n- **Solution** : Please mention a valid user to assign the rank.')
-                .setColor('#58b9ff')
-                .setTimestamp();
-
-            return message.reply({ embeds: [noUserMentionEmbed] });
-        }
-
-        // Get the level
-        const level = args[1].toLowerCase();
 
         // Define role IDs for each level
         const roleIDs = {
@@ -61,17 +36,17 @@ module.exports = {
                 .setColor('#58b9ff')
                 .setTimestamp();
 
-            return message.reply({ embeds: [invalidRankEmbed] });
+            return interaction.reply({ embeds: [invalidRankEmbed], ephemeral: true });
         }
 
-        const guild = message.guild;
+        const guild = interaction.guild;
 
         if (!guild) {
             const noServerEmbed = new EmbedBuilder()
                 .setColor('#ff0000')
                 .setDescription('This command must be used in a server!');
 
-            return message.reply({ embeds: [noServerEmbed] });
+            return interaction.reply({ embeds: [noServerEmbed], ephemeral: true });
         }
 
         // Get the member object
@@ -83,7 +58,7 @@ module.exports = {
                 .setColor('#58b9ff')
                 .setTimestamp();
 
-            return message.reply({ embeds: [memberNotFoundEmbed] });
+            return interaction.reply({ embeds: [memberNotFoundEmbed], ephemeral: true });
         }
 
         // Get the role object based on role ID
@@ -94,7 +69,7 @@ module.exports = {
                 .setDescription('- **Error** : Rank not found in the server!\n- **Solution** : Please input and execute the correct rank!')
                 .setColor('#58b9ff')
                 .setTimestamp();
-            return message.reply({ embeds: [roleNotFoundEmbed] });
+            return interaction.reply({ embeds: [roleNotFoundEmbed], ephemeral: true });
         }
 
         // Remove existing level roles
@@ -113,7 +88,7 @@ module.exports = {
                     .setColor('#58b9ff')
                     .setTimestamp();
 
-                message.reply({ embeds: [successEmbed] });
+                interaction.reply({ embeds: [successEmbed] });
             })
             .catch(error => {
                 console.error('Failed to add role:', error);
@@ -123,7 +98,7 @@ module.exports = {
                     .setColor('#58b9ff')
                     .setTimestamp();
 
-                message.reply({ embeds: [errorEmbed] });
+                interaction.reply({ embeds: [errorEmbed], ephemeral: true });
             });
     },
 };

@@ -2,45 +2,49 @@ const { Permissions, EmbedBuilder } = require('discord.js');
 
 module.exports = {
     name: 'promote',
-    description: 'Assigns a rank to multiple users',
+    description: 'Promotes multiple users to a higher rank',
     execute(message, args) {
         // Role IDs for each rank
         const rankRoles = {
-            Private: '1248818417499373638',
+            'Private': '1248818417499373638',
             'Lance-Corporal': '1248818393146986497',
-            Corporal: '1248818392681680908',
-            Sergeant: '1248818391805067264',
+            'Corporal': '1248818392681680908',
+            'Sergeant': '1248818391805067264',
             'Chef-Sergeant': '1248818391024799804',
             'Warrant-Officer': '1248815968885538816',
-            Lieutenant: '1248819920595189862',
-            Pathfinder: '1248815967262212176',
-            Captain: '1248815966263967787',
+            'Lieutenant': '1248819920595189862',
+            'Pathfinder': '1248815967262212176',
+            'Captain': '1248815966263967787',
             'Field-Major': '1248815965924491294',
-            UIFI: '1248819697265152041',
-            Colonel: '1248815965580558418',
+            'Colonel': '1248815965580558418',
             'Brigadier-Sovereign': '1248815964620066856',
-            'Democracy-Officer': '1248819527299633202',
             'Field-Marshal': '1248815960966823978'
         };
 
         // Rank hierarchy
         const rankHierarchy = [
             'Private',
- 'Lance-Corporal',
- 'Corporal',
- 'Sergeant',
- 'Chef-Sergeant',
- 'Warrant-Officer',
- 'Lieutenant',
- 'Pathfinder',
- 'Captain',
- 'Field-Major',
- 'UIFI',
- 'Colonel',
- 'Brigadier-Sovereign',
- 'Democracy-Officer',
- 'Field-Marshal'
+            'Lance-Corporal',
+            'Corporal',
+            'Sergeant',
+            'Chef-Sergeant',
+            'Warrant-Officer',
+            'Lieutenant',
+            'Pathfinder',
+            'Captain',
+            'Field-Major',
+            'Colonel',
+            'Brigadier-Sovereign',
+            'Field-Marshal'
         ];
+
+        // Role levels
+        const levelRoles = {
+            level1: '1258770431331012659',
+            level2: '1258770333486288979',
+            level3: '1258770232835833856',
+            level4: '1258770336862830716'
+        };
 
         // Check if the command was used correctly
         if (args.length < 2) {
@@ -59,7 +63,7 @@ module.exports = {
         if (!rankID) {
             const invalidRankEmbed = new EmbedBuilder()
                 .setTitle('Error Code 1060')
-                .setDescription('- **Error**: Invalid Rank executed!\n- **Solution**: Please execute the correct rank in order to give ranks to users!')
+                .setDescription('- **Error**: Invalid Rank executed!\n- **Solution**: Please execute the correct rank in order to promote users!')
                 .setColor('#58b9ff')
                 .setTimestamp();
 
@@ -91,15 +95,18 @@ module.exports = {
         }
 
         // Determine the highest level role the message author has
-        let authorRankIndex = -1;
-        for (const [index, rank] of rankHierarchy.entries()) {
-            if (message.member.roles.cache.has(rankRoles[rank])) {
-                authorRankIndex = index;
-                break;
-            }
+        let authorLevel = -1;
+        if (message.member.roles.cache.has(levelRoles.level4)) {
+            authorLevel = 4;
+        } else if (message.member.roles.cache.has(levelRoles.level3)) {
+            authorLevel = 3;
+        } else if (message.member.roles.cache.has(levelRoles.level2)) {
+            authorLevel = 2;
+        } else if (message.member.roles.cache.has(levelRoles.level1)) {
+            authorLevel = 1;
         }
 
-        if (authorRankIndex === -1) {
+        if (authorLevel === -1) {
             const noPermissionEmbed = new EmbedBuilder()
                 .setTitle('Error Code 1056')
                 .setDescription('- **Error**: You do not have permission to use this command!\n- **Solution**: You must have a valid ranking role to use this command!')
@@ -109,11 +116,22 @@ module.exports = {
             return message.reply({ embeds: [noPermissionEmbed] });
         }
 
+        // Determine the highest rank the author can promote to based on their level
+        const maxRankByLevel = {
+            1: 'Corporal',
+            2: 'Sergeant',
+            3: 'Field-Major',
+            4: 'Field-Marshal'  // Level 4 can promote to any rank
+        };
+
+        const maxRank = maxRankByLevel[authorLevel];
+        const maxRankIndex = rankHierarchy.indexOf(maxRank);
         const targetRankIndex = rankHierarchy.indexOf(rankArg);
-        if (targetRankIndex === -1 || targetRankIndex <= authorRankIndex) {
+
+        if (targetRankIndex === -1 || targetRankIndex > maxRankIndex) {
             const rankNotAllowedEmbed = new EmbedBuilder()
                 .setTitle('Promote Command')
-                .setDescription('- **Error**: You can only promote to ranks higher than your own!')
+                .setDescription(`- **Error**: You can only promote up to ${maxRank}!`)
                 .setColor('#58b9ff')
                 .setTimestamp();
 
@@ -185,12 +203,12 @@ module.exports = {
         const userPromises = users.map(user => processUser(user));
 
         Promise.all(userPromises).then(() => {
-            const successMessage = successUsers.length > 0 ? `- **Success**: Successfully added ${rankArg} role to ${successUsers.join(', ')}.\n` : '';
-            const failureMessage = failedUsers.length > 0 ? `- **Error**: Failed to assign ${rankArg} role to ${failedUsers.join(', ')}.\n` : '';
+            const successMessage = successUsers.length > 0 ? `- **Success**: Successfully promoted to ${rankArg} role for ${successUsers.join(', ')}.\n` : '';
+            const failureMessage = failedUsers.length > 0 ? `- **Error**: Failed to promote to ${rankArg} role for ${failedUsers.join(', ')}.\n` : '';
             const combinedMessage = `${successMessage}${failureMessage}`;
 
             const resultEmbed = new EmbedBuilder()
-                .setTitle('Rank Assignment Results')
+                .setTitle('Rank Promotion Results')
                 .setDescription(`${combinedMessage}- **Bug**: Code 1058`)
                 .setColor(successUsers.length > 0 ? '#58b9ff' : '#58b9ff')
                 .setTimestamp();
