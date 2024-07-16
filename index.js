@@ -1,4 +1,4 @@
-const { Client, GatewayIntentBits, Collection, MessageEmbed } = require('discord.js');
+const { Client, GatewayIntentBits, Collection, ActivityType, MessageEmbed, PresenceUpdateStatus } = require('discord.js');
 const fs = require('fs');
 const path = require('path');
 const express = require('express');
@@ -43,7 +43,9 @@ for (const file of commandFiles) {
 
 // Require the join.js and reactionrole.js scripts
 require('./events/join')(client);
-require('./events/reactionrole')(client);
+require('./events/reactionrole')(client)
+
+
 
 // Express web server setup
 const app = express();
@@ -57,10 +59,17 @@ app.listen(port, () => {
     console.log(`Express server listening at http://localhost:${port}`);
 });
 
+
+client.on('ready', () => {
+    client.user.setPresence({ activities: [{ name: 'Safeguarding Democracy!' }], status: 'online' });
+    });
+
 // Discord bot event handlers
 client.once('ready', () => {
     console.log(`Logged in as ${client.user.tag}!`);
 });
+
+
 
 client.on('messageCreate', message => {
     if (!message.content.startsWith('!') || message.author.bot) return;
