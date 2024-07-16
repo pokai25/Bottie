@@ -61,7 +61,7 @@ app.listen(port, () => {
 
 
 client.on('ready', () => {
-    client.user.setPresence({ activities: [{ name: 'Safeguarding Democracy!' }], status: 'online' });
+    client.user.setActivity('Safeguarding Democracy!', { type: 'STREAMING', url: 'https://www.roblox.com/groups/12608478/Parason-United#!/about' });
     });
 
 // Discord bot event handlers
