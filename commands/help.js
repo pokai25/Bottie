@@ -51,12 +51,12 @@ module.exports = {
                 '##  🛠️  **Developers**\n'+
                 '> - <@1119592830327861358> - Lead Developer / Main developer\n'+
                 '\n'+
-                > - <@671700006402654218> - Artis\n'+
+                '> - <@671700006402654218> - Designer\n'+
                 '\n'+
                 '##  👾  **Bot information**\n'+
                 '> - `Date created` : 5 July 2024\n'+
                 '> - `Bot ID` : 1254409963900768266\n'+
-                '> - `Vulnerability` : 1 (Low)'
+                '> - `Vulnerability` : 4 (Low)'
             )
             .setColor('#58b9ff')
             .setTimestamp()
