@@ -43,13 +43,15 @@ module.exports = {
 
         const page3Embed = new EmbedBuilder()
             .setTitle('**🤖 Bot Information**')
-            .setDescription('**Bot Owner/Developer**\n'+
+            .setDescription('****\n'+
                 '\n'+
                 '##  👑  **Owner**\n'+
                 '> - <@677732203861377055> - Bot Owner / Server Owner\n'+
                 '\n'+
                 '##  🛠️  **Developers**\n'+
                 '> - <@1119592830327861358> - Lead Developer / Main developer\n'+
+                '\n'+
+                > - <@671700006402654218> - Artis\n'+
                 '\n'+
                 '##  👾  **Bot information**\n'+
                 '> - `Date created` : 5 July 2024\n'+
