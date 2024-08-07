@@ -8,7 +8,7 @@ module.exports = {
 
         if (!guild) {
             const noServerEmbed = new EmbedBuilder()
-                .setColor('#58b9ff')
+                .setColor('#212121')
                 .setDescription('This command must be used in a server!');
 
             return message.reply({ embeds: [noServerEmbed] });
@@ -24,7 +24,7 @@ module.exports = {
 
         const statusEmbed = new EmbedBuilder()
             .setTitle('📊 Status')
-            .setColor('#58b9ff')
+            .setColor('#212121')
             .setImage('https://media.discordapp.net/attachments/1258742384842510406/1260911144042889298/Commands_8.png?ex=66910a83&is=668fb903&hm=50973ecf719134a2a2f8c0a53f1741d1db41f9ab6a1dff598df3524c9b8fd95c&=&format=webp&quality=lossless')
             .setDescription(`
 ## **🌐 Server Status**
