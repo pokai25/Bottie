@@ -50,7 +50,7 @@ module.exports = {
         if (args.length < 2) {
             const usageEmbed = new EmbedBuilder()
                 .setTitle('Error Code 1059')
-                .setColor('#58b9ff')
+                .setColor('#212121')
                 .setDescription('- **Error**: Command input is invalid!\n- **Solution**: Please use the command in the following format: !demote <@user1> <@user2> ... <rank>')
                 .setTimestamp();
 
@@ -64,7 +64,7 @@ module.exports = {
             const invalidRankEmbed = new EmbedBuilder()
                 .setTitle('Error Code 1060')
                 .setDescription('- **Error**: Invalid Rank executed!\n- **Solution**: Please execute the correct rank in order to give ranks to users!')
-                .setColor('#58b9ff')
+                .setColor('#212121')
                 .setTimestamp();
 
             return message.reply({ embeds: [invalidRankEmbed] });
@@ -78,7 +78,7 @@ module.exports = {
             const noUserMentionEmbed = new EmbedBuilder()
                 .setTitle('Error Code 1062')
                 .setDescription('- **Error**: No valid users mentioned!\n- **Solution**: Please mention valid users to assign the rank.')
-                .setColor('#58b9ff')
+                .setColor('#212121')
                 .setTimestamp();
 
             return message.reply({ embeds: [noUserMentionEmbed] });
@@ -88,7 +88,7 @@ module.exports = {
 
         if (!guild) {
             const noServerEmbed = new EmbedBuilder()
-                .setColor('#58b9ff')
+                .setColor('#212121')
                 .setDescription('This command must be used in a server!');
 
             return message.reply({ embeds: [noServerEmbed] });
@@ -110,7 +110,7 @@ module.exports = {
             const noPermissionEmbed = new EmbedBuilder()
                 .setTitle('Error Code 1056')
                 .setDescription('- **Error**: You do not have permission to use this command!\n- **Solution**: You must have a valid ranking role to use this command!')
-                .setColor('#58b9ff')
+                .setColor('#212121')
                 .setTimestamp();
 
             return message.reply({ embeds: [noPermissionEmbed] });
@@ -132,7 +132,7 @@ module.exports = {
             const rankNotAllowedEmbed = new EmbedBuilder()
                 .setTitle('Demote Command')
                 .setDescription(`- **Error**: You can only demote down to ${maxRank}!`)
-                .setColor('#58b9ff')
+                .setColor('#212121')
                 .setTimestamp();
 
             return message.reply({ embeds: [rankNotAllowedEmbed] });
