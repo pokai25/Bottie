@@ -13,7 +13,7 @@ module.exports = (client) => {
         const embed = new EmbedBuilder()
             .setTitle(`**Welcome to Parason United**`)
             .setDescription(`:wave: Welcome to our server <@${member.user.id}>! To join Parason United, please refer to the 'How to Join' channel for detailed instructions. We hope you enjoy your stay here. If you have any questions, feel free to ask.`)
-            .setColor(0x58b9ff)
+            .setColor('#212121')
             .setTimestamp(new Date())
             .setFooter({ text: 'Enjoy your stay!' })
             .setThumbnail(member.user.displayAvatarURL({ dynamic: true, size: 256 }));
