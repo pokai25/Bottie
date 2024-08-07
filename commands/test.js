@@ -7,7 +7,7 @@ module.exports = {
         const testEmbed = new EmbedBuilder()
             .setTitle('Test')
             .setDescription('This is a test message.')
-            .setColor('#58b9ff'); // Set your desired color here
+            .setColor('#212121'); // Set your desired color here
 
         message.reply({ embeds: [testEmbed] });
     },
