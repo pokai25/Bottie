@@ -13,7 +13,7 @@ module.exports = {
             const noPermissionEmbed = new EmbedBuilder()
                 .setTitle('Error Code 1056')
                 .setDescription('- **Error** : You do not have permission to use this command!\n- **Solution** : You must have Ranking Perms in order to use this command!')
-                .setColor('#58b9ff')
+                .setColor('#212121')
                 .setTimestamp();
 
             return interaction.reply({ embeds: [noPermissionEmbed], ephemeral: true });
@@ -33,7 +33,7 @@ module.exports = {
             const invalidRankEmbed = new EmbedBuilder()
                 .setTitle('Error Code 1060')
                 .setDescription('- **Error** : Invalid Rank executed!\n- **Solution** : Please execute the correct rank in order to give ranks to users!')
-                .setColor('#58b9ff')
+                .setColor('#212121')
                 .setTimestamp();
 
             return interaction.reply({ embeds: [invalidRankEmbed], ephemeral: true });
@@ -43,7 +43,7 @@ module.exports = {
 
         if (!guild) {
             const noServerEmbed = new EmbedBuilder()
-                .setColor('#ff0000')
+                .setColor('#212121')
                 .setDescription('This command must be used in a server!');
 
             return interaction.reply({ embeds: [noServerEmbed], ephemeral: true });
@@ -55,7 +55,7 @@ module.exports = {
             const memberNotFoundEmbed = new EmbedBuilder()
                 .setTitle('Error Code 1058')
                 .setDescription('- **Error** : Member not found in the server!\n- **Solution** : Please input and execute the correct username!')
-                .setColor('#58b9ff')
+                .setColor('#212121')
                 .setTimestamp();
 
             return interaction.reply({ embeds: [memberNotFoundEmbed], ephemeral: true });
@@ -67,7 +67,7 @@ module.exports = {
             const roleNotFoundEmbed = new EmbedBuilder()
                 .setTitle('Error Code 1058')
                 .setDescription('- **Error** : Rank not found in the server!\n- **Solution** : Please input and execute the correct rank!')
-                .setColor('#58b9ff')
+                .setColor('#212121')
                 .setTimestamp();
             return interaction.reply({ embeds: [roleNotFoundEmbed], ephemeral: true });
         }
@@ -85,7 +85,7 @@ module.exports = {
                 const successEmbed = new EmbedBuilder()
                     .setTitle('Rank Assigned')
                     .setDescription(`- Success : Successfully added ${role.name} role to ${user.tag}!\n- Bug : Code 1058`)
-                    .setColor('#58b9ff')
+                    .setColor('#212121')
                     .setTimestamp();
 
                 interaction.reply({ embeds: [successEmbed] });
@@ -95,7 +95,7 @@ module.exports = {
                 const errorEmbed = new EmbedBuilder()
                     .setTitle('Error Code 1063')
                     .setDescription('- **Error** : The bot encountered an error while attempting to add the roles you specified.\n- **Solution** : Please contact the staff members as well as the developers.')
-                    .setColor('#58b9ff')
+                    .setColor('#212121')
                     .setTimestamp();
 
                 interaction.reply({ embeds: [errorEmbed], ephemeral: true });
