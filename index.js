@@ -43,7 +43,6 @@ for (const file of commandFiles) {
 
 // Require the join.js and reactionrole.js scripts
 require('./events/join')(client);
-require('./events/reactionrole')(client)
 
 
 
