@@ -12,7 +12,7 @@ module.exports = {
         if (args.length < 1) {
             const usageEmbed = new EmbedBuilder()
                 .setTitle('Error Code 1068')
-                .setColor('#58b9ff')
+                .setColor('#212121')
                 .setDescription('- **Error**: Command input is invalid!\n- **Solution**: Please use the command in the following format: !recruit <@user1> <@user2> ...')
                 .setTimestamp();
 
@@ -26,7 +26,7 @@ module.exports = {
             const noUserMentionEmbed = new EmbedBuilder()
                 .setTitle('Error Code 1069')
                 .setDescription('- **Error**: No valid users mentioned!\n- **Solution**: Please mention valid users to recruit.')
-                .setColor('#58b9ff')
+                .setColor('#212121')
                 .setTimestamp();
 
             return message.reply({ embeds: [noUserMentionEmbed] });
@@ -36,7 +36,7 @@ module.exports = {
 
         if (!guild) {
             const noServerEmbed = new EmbedBuilder()
-                .setColor('#ff0000')
+                .setColor('#212121')
                 .setDescription('This command must be used in a server!');
 
             return message.reply({ embeds: [noServerEmbed] });
@@ -83,7 +83,7 @@ module.exports = {
                 const successEmbed = new EmbedBuilder()
                     .setTitle('Recruitment Successful')
                     .setDescription(`- **Success**: Successfully recruited the following users by removing the old role and adding the new role: ${successUsers.join(', ')}`)
-                    .setColor('#58b9ff')
+                    .setColor('#212121')
                     .setTimestamp();
 
                 message.reply({ embeds: [successEmbed] });
@@ -93,7 +93,7 @@ module.exports = {
                 const guestRoleNotFoundEmbed = new EmbedBuilder()
                     .setTitle('Error Code 1070')
                     .setDescription(`- **Error**: The following users do not have the guest role: ${guestRoleNotFoundUsers.join(', ')}.`)
-                    .setColor('#58b9ff')
+                    .setColor('#212121')
                     .setTimestamp();
 
                 message.reply({ embeds: [guestRoleNotFoundEmbed] });
@@ -103,7 +103,7 @@ module.exports = {
                 const errorEmbed = new EmbedBuilder()
                     .setTitle('Recruitment Errors')
                     .setDescription(`- **Error**: Failed to recruit the following users: ${errorUsers.join(', ')}. Please ensure the bot has the appropriate permissions and try again.`)
-                    .setColor('#ff0000')
+                    .setColor('#212121')
                     .setTimestamp();
 
                 message.reply({ embeds: [errorEmbed] });
