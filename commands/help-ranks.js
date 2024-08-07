@@ -24,7 +24,7 @@ module.exports = {
             '**💡 For example** : ***__!promote @user1 Lance-Corporal__***\n'+
             '**📌 Note** : The numbers is for ***DEVELOPERS***. Nothing to do with the command.\n'
             )
-            .setColor('#58b9ff')
+            .setColor('#212121')
             .setImage('https://cdn.discordapp.com/attachments/1258742384842510406/1261927224295166063/Commands_13.png?ex=6694bccf&is=66936b4f&hm=d984f0f48b6ccaaf5f6b927959236c032a0333b5d5272a387daef608f3c9fd11&')
             .setTimestamp()
             .setFooter({ text: 'Page・1' });
@@ -41,7 +41,7 @@ module.exports = {
                 '**📌 Note** : The numbers is for ***DEVELOPERS***. Nothing to do with the command.\n'
 
             )
-            .setColor('#58b9ff')
+            .setColor('#212121')
             .setImage('https://cdn.discordapp.com/attachments/1258742384842510406/1261927224295166063/Commands_13.png?ex=6694bccf&is=66936b4f&hm=d984f0f48b6ccaaf5f6b927959236c032a0333b5d5272a387daef608f3c9fd11&')
             .setTimestamp()
             .setFooter({ text: 'Page・2' });
