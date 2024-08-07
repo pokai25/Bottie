@@ -8,7 +8,7 @@ module.exports = {
         if (args.length < 1) {
             const usageEmbed = new EmbedBuilder()
                 .setTitle('Error Code 1064')
-                .setColor('#58b9ff')
+                .setColor('#212121')
                 .setDescription('- **Error**: Command input is invalid!\n- **Solution**: Please use the command in the following format: `!notify #channel` followed by the messages')
                 .setTimestamp();
 
@@ -22,7 +22,7 @@ module.exports = {
         if (!channelID) {
             const invalidChannelEmbed = new EmbedBuilder()
                 .setTitle('Error Code 1065')
-                .setColor('#58b9ff')
+                .setColor('#212121')
                 .setDescription('- **Error**: Invalid channel mention!\n- **Solution**: Please mention a valid channel.')
                 .setTimestamp();
 
@@ -34,7 +34,7 @@ module.exports = {
         if (!channel) {
             const invalidChannelEmbed = new EmbedBuilder()
                 .setTitle('Error Code 1065')
-                .setColor('#58b9ff')
+                .setColor('#212121')
                 .setDescription('- **Error**: Invalid channel ID!\n- **Solution**: Please provide a valid channel ID.')
                 .setTimestamp();
 
@@ -46,7 +46,7 @@ module.exports = {
         if (lines.length < 1) {
             const invalidFormatEmbed = new EmbedBuilder()
                 .setTitle('Error Code 1066')
-                .setColor('#58b9ff')
+                .setColor('#212121')
                 .setDescription('- **Error**: Invalid message format!\n- **Solution**: Please ensure the message follows the correct format with at least 1 line.')
                 .setTimestamp();
 
@@ -85,14 +85,14 @@ module.exports = {
                     .setTitle(title || 'No Title')
                     .setDescription(description || 'No Description')
                     .setFooter({ text: footer || 'Unknown' })
-                    .setColor('#58b9ff')
+                    .setColor('#212121')
                     .setTimestamp();
 
                 channel.send({ embeds: [embed] })
                     .then(() => {
                         const successEmbed = new EmbedBuilder()
                             .setTitle('Notification Sent')
-                            .setColor('#58b9ff')
+                            .setColor('#212121')
                             .setDescription(`Successfully sent the message${normalMessage ? ' and embed' : ''} to ${channelMention}`)
                             .setTimestamp();
 
@@ -102,7 +102,7 @@ module.exports = {
                         console.error('Failed to send embed:', error);
                         const errorEmbed = new EmbedBuilder()
                             .setTitle('Error')
-                            .setColor('#58b9ff')
+                            .setColor('#212121')
                             .setDescription('Failed to send the embed! Please ensure the bot has permission to send messages in the specified channel.')
                             .setTimestamp();
 
@@ -111,7 +111,7 @@ module.exports = {
             } else {
                 const successEmbed = new EmbedBuilder()
                     .setTitle('Notification Sent')
-                    .setColor('#58b9ff')
+                    .setColor('#212121')
                     .setDescription(`Successfully sent the message to ${channelMention}`)
                     .setTimestamp();
 
@@ -128,7 +128,7 @@ module.exports = {
                     console.error('Failed to send message:', error);
                     const errorEmbed = new EmbedBuilder()
                         .setTitle('Error')
-                        .setColor('#58b9ff')
+                        .setColor('#212121')
                         .setDescription('Failed to send the message! Please ensure the bot has permission to send messages in the specified channel.')
                         .setTimestamp();
 
