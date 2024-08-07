@@ -25,7 +25,7 @@ module.exports = {
             '**📌 Note** : The numbers is for ***DEVELOPERS***. Nothing to do with the command.\n'
             )
             .setColor('#212121')
-            .setImage('https://cdn.discordapp.com/attachments/1258742384842510406/1261927224295166063/Commands_13.png?ex=6694bccf&is=66936b4f&hm=d984f0f48b6ccaaf5f6b927959236c032a0333b5d5272a387daef608f3c9fd11&')
+            .setImage('https://media.discordapp.net/attachments/1270369986396815441/1270722332540932136/COMMANDS_2.png?ex=66b4bbe4&is=66b36a64&hm=57ffb0411ee85256de5f866d6da8bf2106a0646a84089e990b2f22330febc2f6&=&format=webp&quality=lossless&width=400&height=80')
             .setTimestamp()
             .setFooter({ text: 'Page・1' });
 
@@ -42,7 +42,7 @@ module.exports = {
 
             )
             .setColor('#212121')
-            .setImage('https://cdn.discordapp.com/attachments/1258742384842510406/1261927224295166063/Commands_13.png?ex=6694bccf&is=66936b4f&hm=d984f0f48b6ccaaf5f6b927959236c032a0333b5d5272a387daef608f3c9fd11&')
+            .setImage('https://media.discordapp.net/attachments/1270369986396815441/1270722332540932136/COMMANDS_2.png?ex=66b4bbe4&is=66b36a64&hm=57ffb0411ee85256de5f866d6da8bf2106a0646a84089e990b2f22330febc2f6&=&format=webp&quality=lossless&width=400&height=80')
             .setTimestamp()
             .setFooter({ text: 'Page・2' });
 
