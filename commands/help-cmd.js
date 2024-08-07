@@ -22,8 +22,8 @@ module.exports = {
             '> - 🧪  **`test`** : __Mainly for developers to test but anyone can use it.__\n'+
             '\nPlease use the command __***!help-format***___ if you are unsure how to use the format commands\n'
         )
-        .setColor('#58b9ff')
-        .setImage('https://cdn.discordapp.com/attachments/1258742384842510406/1259077355356557392/Commands_1.png?ex=669441ea&is=6692f06a&hm=86884827b60f01f2a3d34023296c71000d73134d974ccca9c1eaff9bd9308b88&')
+        .setColor('#212121')
+        .setImage('https://cdn.discordapp.com/attachments/1270369986396815441/1270717176797597788/COMMANDS.png?ex=66b4b717&is=66b36597&hm=589809bcaed7a3d8a47ce94cbe950f5a742ea2bd87a784b0bca8fdf520d579bd&')
         .setTimestamp()
 
         message.reply({ embeds: [testEmbed] });
