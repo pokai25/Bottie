@@ -13,7 +13,7 @@ module.exports = {
                 '\n'
             )
             .setColor('#58b9ff')
-            .setImage('https://cdn.discordapp.com/attachments/1258742384842510406/1261881506629160980/Commands_10.png?ex=6694923b&is=669340bb&hm=a9e60689f69554dcff83ab331a081ba3b66b12a67636c004f1193e7371970dde&')
+            .setImage('https://cdn.discordapp.com/attachments/1270369986396815441/1270722645356183573/COMMANDS_3.png?ex=66b4bc2f&is=66b36aaf&hm=5667e18d48d72a813f324b51e4dd46cc10afd6a904b284e8d8d81076fb0ac1f4&')
             .setTimestamp()
             .setFooter({ text: 'Page・1' });
 
@@ -37,7 +37,7 @@ module.exports = {
                 '💾 **Databases:**\n' +
                 '> - **[Parason United Database](https://docs.google.com/spreadsheets/d/1dz1SgbsIL6qoEIH5FAfa0LEd3C6DzK9yRSt9PXS-oQg/edit?usp=sharing)**')
             .setColor('#58b9ff')
-            .setImage('https://media.discordapp.net/attachments/1258742384842510406/1259077862657622087/Commands_2.png?ex=668a5f22&is=66890da2&hm=0702072be6e972ffb8d59ee9b90c05921d06224672ad5ad1f6394cec648c8583&=&format=webp&quality=lossless&width=375&height=75')
+            .setImage('https://cdn.discordapp.com/attachments/1270369986396815441/1270722645356183573/COMMANDS_3.png?ex=66b4bc2f&is=66b36aaf&hm=5667e18d48d72a813f324b51e4dd46cc10afd6a904b284e8d8d81076fb0ac1f4&')
             .setTimestamp()
             .setFooter({ text: 'Page・2' });
 
@@ -61,7 +61,7 @@ module.exports = {
             )
             .setColor('#58b9ff')
             .setTimestamp()
-            .setImage('https://cdn.discordapp.com/attachments/1258742384842510406/1261911225361764402/Commands_11.png?ex=6694ade9&is=66935c69&hm=d3c054e2ac0c711b63a7b84695b48c2025a07c34b6dcb3f325c36d9a710ed23b&')
+            .setImage('https://cdn.discordapp.com/attachments/1270369986396815441/1270722645356183573/COMMANDS_3.png?ex=66b4bc2f&is=66b36aaf&hm=5667e18d48d72a813f324b51e4dd46cc10afd6a904b284e8d8d81076fb0ac1f4&')
             .setFooter({ text: 'Page・3' });
 
         const row = new ActionRowBuilder()
