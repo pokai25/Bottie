@@ -13,7 +13,7 @@ module.exports = {
             const noPermissionEmbed = new EmbedBuilder()
                 .setTitle('Error')
                 .setDescription('You do not have the required role to execute this command.')
-                .setColor('#58b9ff')
+                .setColor('#212121')
                 .setTimestamp();
             return message.reply({ embeds: [noPermissionEmbed] });
         }
@@ -24,7 +24,7 @@ module.exports = {
             const noUserEmbed = new EmbedBuilder()
                 .setTitle('Error')
                 .setDescription('Please mention a user to blacklist.')
-                .setColor('#58b9ff')
+                .setColor('#212121')
                 .setTimestamp();
             return message.reply({ embeds: [noUserEmbed] });
         }
@@ -60,7 +60,7 @@ module.exports = {
             const noGuildMemberEmbed = new EmbedBuilder()
                 .setTitle('Error')
                 .setDescription('The mentioned user is not a member of this server.')
-                .setColor('#58b9ff')
+                .setColor('#212121')
                 .setTimestamp();
             return message.reply({ embeds: [noGuildMemberEmbed] });
         }
@@ -76,7 +76,7 @@ module.exports = {
 - **Blacklist**: ${days ? `${days} days` : 'Perm'}
 - **Proof**: ${proofText ? proofText : ''}
             `)
-            .setColor('#58b9ff')
+            .setColor('#212121')
             .setFooter({ text: `By ${message.author.tag}` })
             .setTimestamp()
             .setThumbnail(mentionedUser.displayAvatarURL());
@@ -101,7 +101,7 @@ module.exports = {
                 const unblacklistEmbed = new EmbedBuilder()
                     .setTitle('Blacklist Expired')
                     .setDescription(`${mentionedUser} is no longer blacklisted.`)
-                    .setColor('#58b9ff')
+                    .setColor('#212121')
                     .setTimestamp();
                 if (logChannel) {
                     logChannel.send({ embeds: [unblacklistEmbed] });
