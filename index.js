@@ -61,7 +61,7 @@ app.listen(port, () => {
 
 client.on('ready', () => {
     client.user.setActivity({
-        name: "Safeguarding Democracy!",
+        name: "Preaching Faith!",
         type: ActivityType.Playing,
     });
     });
