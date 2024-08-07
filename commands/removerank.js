@@ -12,7 +12,7 @@ module.exports = {
             const noPermissionEmbed = new EmbedBuilder()
                 .setTitle('Error Code 1056')
                 .setDescription('- **Error** : You do not have permission to use this command!\n- **Solution** : You must have Ranking Perms in order to use this command!')
-                .setColor('#58b9ff')
+                .setColor('#212121')
                 .setTimestamp();
 
             return message.reply({ embeds: [noPermissionEmbed] });
@@ -22,7 +22,7 @@ module.exports = {
         if (args.length < 1) {
             const usageEmbed = new EmbedBuilder()
                 .setTitle('Error Code 1059')
-                .setColor('#58b9ff')
+                .setColor('#212121')
                 .setDescription('- **Error** : Command input is invalid!\n- **Solution** : Please use the command in the following format : !removerank <@user>')
                 .setTimestamp();
 
@@ -35,7 +35,7 @@ module.exports = {
             const noUserMentionEmbed = new EmbedBuilder()
                 .setTitle('Error Code 1062')
                 .setDescription('- **Error** : No valid user mentioned!\n- **Solution** : Please mention a valid user to remove the rank.')
-                .setColor('#58b9ff')
+                .setColor('#212121')
                 .setTimestamp();
 
             return message.reply({ embeds: [noUserMentionEmbed] });
@@ -45,7 +45,7 @@ module.exports = {
 
         if (!guild) {
             const noServerEmbed = new EmbedBuilder()
-                .setColor('#ff0000')
+                .setColor('#212121')
                 .setDescription('This command must be used in a server!');
 
             return message.reply({ embeds: [noServerEmbed] });
@@ -57,7 +57,7 @@ module.exports = {
             const memberNotFoundEmbed = new EmbedBuilder()
                 .setTitle('Error Code 1058')
                 .setDescription('- **Error** : Member not found in the server!\n- **Solution** : Please input and execute the correct username!')
-                .setColor('#58b9ff')
+                .setColor('#212121')
                 .setTimestamp();
 
             return message.reply({ embeds: [memberNotFoundEmbed] });
@@ -79,7 +79,7 @@ module.exports = {
             const noLevelRolesEmbed = new EmbedBuilder()
                 .setTitle('Error Code 1063')
                 .setDescription('- **Error** : The user does not have any level roles!\n- **Solution** : Please make sure the user has a level role before attempting to remove it.')
-                .setColor('#58b9ff')
+                .setColor('#212121')
                 .setTimestamp();
 
             return message.reply({ embeds: [noLevelRolesEmbed] });
@@ -91,7 +91,7 @@ module.exports = {
                 const successEmbed = new EmbedBuilder()
                     .setTitle('Rank Removed')
                     .setDescription(`- **Success** : Successfully removed level role(s) from ${user.tag}!\n- **Bug** : Code 1058`)
-                    .setColor('#58b9ff')
+                    .setColor('#212121')
                     .setTimestamp();
 
                 message.reply({ embeds: [successEmbed] });
@@ -101,7 +101,7 @@ module.exports = {
                 const errorEmbed = new EmbedBuilder()
                     .setTitle('Error Code 1063')
                     .setDescription('- **Error** : The bot encountered an error while attempting to remove the role.\n- **Solution** : Please contact the staff members as well as the developers.')
-                    .setColor('#ff0000')
+                    .setColor('#212121')
                     .setTimestamp();
 
                 message.reply({ embeds: [errorEmbed] });
