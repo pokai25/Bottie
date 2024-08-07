@@ -20,7 +20,7 @@ module.exports = (client) => {
 
         channel.send({ embeds: [embed] });
 
-        const roleId = '1251367866738151505'; // Role ID to assign
+        const roleId = '1268700942715326618'; // Role ID to assign
         const role = member.guild.roles.cache.get(roleId);
 
         if (!role) {
