@@ -21,8 +21,8 @@ module.exports = {
                 '> - ❓  **`help`** : __!help__\n'+
                 '> - 🧪  **`test`** : __!test__\n'
             )
-            .setColor('#58b9ff')
-            .setImage('https://cdn.discordapp.com/attachments/1258742384842510406/1261927224295166063/Commands_13.png?ex=6694bccf&is=66936b4f&hm=d984f0f48b6ccaaf5f6b927959236c032a0333b5d5272a387daef608f3c9fd11&')
+            .setColor('#212121')
+            .setImage('https://cdn.discordapp.com/attachments/1270369986396815441/1270717503353389058/COMMANDS_1.png?ex=66b4b765&is=66b365e5&hm=380eccd8cc9a642c17a8d038ca8c99e7ba13125a8ae7892fe2a0746ce9e80cc0&')
             .setTimestamp()
             .setFooter({ text: 'Page・1' });
 
@@ -36,8 +36,8 @@ module.exports = {
                 '> - 🏆  **`addrank / removerank`** : This is also similar to promote / demote command. For example, use the command __***!addrank <@user1><@user2><@user3> <level>***__. Make sure to add a space between each command, user, and level.\n'+
                 '\n'
             )
-            .setColor('#58b9ff')
-            .setImage('https://cdn.discordapp.com/attachments/1258742384842510406/1261927224295166063/Commands_13.png?ex=6694bccf&is=66936b4f&hm=d984f0f48b6ccaaf5f6b927959236c032a0333b5d5272a387daef608f3c9fd11&')
+            .setColor('#212121')
+            .setImage('https://cdn.discordapp.com/attachments/1270369986396815441/1270717503353389058/COMMANDS_1.png?ex=66b4b765&is=66b365e5&hm=380eccd8cc9a642c17a8d038ca8c99e7ba13125a8ae7892fe2a0746ce9e80cc0&')
             .setTimestamp()
             .setFooter({ text: 'Page・2' });
 
