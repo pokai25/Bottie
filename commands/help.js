@@ -12,7 +12,7 @@ module.exports = {
                 '> - 🎖️  **`help-ranks`** : __List of ranks for commands.__\n' +
                 '\n'
             )
-            .setColor('#58b9ff')
+            .setColor('#212121')
             .setImage('https://cdn.discordapp.com/attachments/1270369986396815441/1270722645356183573/COMMANDS_3.png?ex=66b4bc2f&is=66b36aaf&hm=5667e18d48d72a813f324b51e4dd46cc10afd6a904b284e8d8d81076fb0ac1f4&')
             .setTimestamp()
             .setFooter({ text: 'Page・1' });
@@ -36,7 +36,7 @@ module.exports = {
                 '> - **[Northern Frontier](https://www.roblox.com/games/17886218648/Northern-Frontier)**\n\n' +
                 '💾 **Databases:**\n' +
                 '> - **[Parason United Database](https://docs.google.com/spreadsheets/d/1dz1SgbsIL6qoEIH5FAfa0LEd3C6DzK9yRSt9PXS-oQg/edit?usp=sharing)**')
-            .setColor('#58b9ff')
+            .setColor('#212121')
             .setImage('https://cdn.discordapp.com/attachments/1270369986396815441/1270722645356183573/COMMANDS_3.png?ex=66b4bc2f&is=66b36aaf&hm=5667e18d48d72a813f324b51e4dd46cc10afd6a904b284e8d8d81076fb0ac1f4&')
             .setTimestamp()
             .setFooter({ text: 'Page・2' });
@@ -59,7 +59,7 @@ module.exports = {
                 '> - `Bot ID` : 1254409963900768266\n'+
                 '> - `Vulnerability` : 4 (Low)'
             )
-            .setColor('#58b9ff')
+            .setColor('#212121')
             .setTimestamp()
             .setImage('https://cdn.discordapp.com/attachments/1270369986396815441/1270722645356183573/COMMANDS_3.png?ex=66b4bc2f&is=66b36aaf&hm=5667e18d48d72a813f324b51e4dd46cc10afd6a904b284e8d8d81076fb0ac1f4&')
             .setFooter({ text: 'Page・3' });
